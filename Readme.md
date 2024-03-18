@@ -20,3 +20,6 @@ Payment subscription(for lyrics):
 * Available as website
 * Andriod app & Ios app
 
+## Developer Guide
+The project has been documented such that it can be understood by any level of developer as each component has been carefully commented, it should be a piece of cake for future management.
+

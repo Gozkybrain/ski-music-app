@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const ForgetPassword = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
-  const handleContinue = () => {
-    // Validate email and navigate to OTP screen
-    if (email.trim() !== '') {
-      // Navigate to OTP screen with email as parameter
-      navigation.navigate('OTP', { email: email });
-    } else {
-      // Show error message or handle invalid email
-    }
+  const goBack = () => {
+    navigation.goBack(); // Go back to the previous screen
   };
 
+  const handleContinue = () => {
+    // Email validation regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Check if email matches the pattern
+    if (!emailPattern.test(email.trim())) {
+      // Show error message for invalid email
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return; // Stop execution if email is invalid
+    }
+
+    // Navigate to OTP screen with email as parameter
+    navigation.navigate('OTP', { email: email });
+  };
 
   return (
     <View style={styles.container}>
@@ -26,13 +34,19 @@ const ForgetPassword = ({ navigation }) => {
 
       {/* Header */}
       <View style={styles.header}>
+        {/* Go Back Button */}
+        <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+          <Text style={styles.goBackButtonText}>&#x2190;</Text>
+        </TouchableOpacity>
+
+        {/* logo image */}
         <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
       </View>
 
       {/* Body */}
       <View style={styles.body}>
         {/* Background image */}
-        
+
         <Image
           source={require('../assets/girlBG.png')}
           style={styles.backgroundImage}
@@ -42,25 +56,27 @@ const ForgetPassword = ({ navigation }) => {
           colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
           style={styles.gradient}
         />
-         {/* Forget Password content */}
-         <View  style={styles.accordionButtonLogin}>
-            <Text style={styles.accordionButtonTextLog}>Change your password</Text>
-            <View  style={styles.formContainer}>
-           <Text style={styles.title}>Enter Your Email</Text>
-           <TextInput
-             style={styles.input}
-             placeholder="johndoe@email.com"
-             value={email}
-             onChangeText={setEmail}
-             keyboardType="email-address"
-             autoCapitalize="none"
-             autoCorrect={false}
-           />
-           <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-             <Text style={styles.continueButtonText}>Continue</Text>
-           </TouchableOpacity>
-         </View>
+        {/* Forget Password content */}
+        <View style={styles.accordionButtonLogin}>
+          <Text style={styles.accordionButtonTextLog}>Change your password</Text>
+          <View style={styles.formContainer}>
+
+            {/* enter email address to recover password */}
+            <Text style={styles.title}>Enter Your Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="johndoe@email.com"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+              <Text style={styles.continueButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
+        </View>
 
       </View>
     </View>
@@ -181,6 +197,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     padding: 25,
     width: '100%',
+  },
+  goBackButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+    alignSelf: 'flex-start',
+  },
+
+  goBackButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    textAlign: 'left',
+    fontWeight: 'bold',
   },
 });
 

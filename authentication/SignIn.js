@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 const SignIn = ({ navigation }) => {
   const handleLogin = () => {
-    // Handle login logic
+    // Navigate to NewPage screen after login
+    navigation.navigate('NewPage');
   };
 
   const handleForgotPassword = () => {

@@ -13,8 +13,8 @@ const VerifyEmail = ({ navigation }) => {
     const handleSubmit = () => {
         // Combine the OTP digits into a single string
         const otp = otp1 + otp2 + otp3 + otp4;
-        // Navigate to NewPass screen with OTP data
-        navigation.navigate('NewPass', { otp });
+        // Navigate to AuthMe screen with OTP data
+        navigation.navigate('AuthMe', { otp });
     };
 
     const goBack = () => {
@@ -107,7 +107,7 @@ const VerifyEmail = ({ navigation }) => {
                             onPress={handleSubmit}
                             disabled={!isOtpFilled()}
                         >
-                            <Text style={styles.buttonText}>Continue</Text>
+                            <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
                     </View>
 

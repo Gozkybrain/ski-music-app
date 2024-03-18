@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
         style={styles.backgroundImage}
       />
 
-      {/* Header */}
+      {/* Header  section */}
       <View style={styles.header}>
         <Image source={require('./assets/hLogo.png')} style={styles.logo} />
       </View>

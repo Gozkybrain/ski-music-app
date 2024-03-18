@@ -4,15 +4,24 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const EmailReg = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const isEmailValid = (email) => {
+    // Regular expression to validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleContinue = () => {
-    // Validate email and navigate to OTP screen
-    if (email.trim() !== '') {
-      // Navigate to OTP screen with email as parameter
-      navigation.navigate('OTP', { email: email });
-    } else {
-      // Show error message or handle invalid email
+    // Validate email and password
+    if (isEmailValid(email) && password.trim() !== '') {
+      // Navigate to OTP screen with email and password as parameters
+      navigation.navigate('VerifyEmail', { email: email, password: password });
     }
+  };
+
+  const goBack = () => {
+    navigation.goBack(); // Go back to the previous screen
   };
 
 
@@ -20,47 +29,71 @@ const EmailReg = ({ navigation }) => {
     <View style={styles.container}>
       {/* Background image */}
       <Image
-        source={require('../assets/passBG.png')}
+        source={require('../assets/otp.png')}
         style={styles.backgroundImage}
       />
 
       {/* Header */}
       <View style={styles.header}>
+        {/* Go Back Button */}
+        <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+          <Text style={styles.goBackButtonText}>&#x2190;</Text>
+        </TouchableOpacity>
+
+        {/* logo image */}
         <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
+
       </View>
 
       {/* Body */}
       <View style={styles.body}>
         {/* Background image */}
-        
-        <Image
-          source={require('../assets/girlBG.png')}
-          style={styles.backgroundImage}
-        />
+
         {/* Black gradient */}
         <LinearGradient
           colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
           style={styles.gradient}
         />
-         {/* Forget Password content */}
-         <View  style={styles.accordionButtonLogin}>
-            <Text style={styles.accordionButtonTextLog}>Register with Email</Text>
-            <View  style={styles.formContainer}>
-           <Text style={styles.title}>Enter Your Email</Text>
-           <TextInput
-             style={styles.input}
-             placeholder="still in test"
-             value={email}
-             onChangeText={setEmail}
-             keyboardType="email-address"
-             autoCapitalize="none"
-             autoCorrect={false}
-           />
-           <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-             <Text style={styles.continueButtonText}>Continue</Text>
-           </TouchableOpacity>
-         </View>
+
+        {/* Forget Password content */}
+        <View style={styles.accordionButtonLogin}>
+          <Text style={styles.accordionButtonTextLog}>Register with Email</Text>
+          <View style={styles.formContainer}>
+
+            {/* Email Address Field */}
+            <Text style={styles.title}>Enter Your Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="john-doe@email.com"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+
+            {/* Password field */}
+            <Text style={styles.title}>Create a Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="xxxxxxxx"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+
+            {/* submit to continue button */}
+            <TouchableOpacity
+              style={[styles.continueButton, !(isEmailValid(email) && password.trim() !== '') && styles.disabledButton]}
+              onPress={handleContinue}
+              disabled={!(isEmailValid(email) && password.trim() !== '')}
+            >
+              <Text style={styles.continueButtonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
+        </View>
 
       </View>
     </View>
@@ -108,53 +141,29 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: 'Trebuchet MS',
-    // fontWeight: 'bold',
-    // color: 'white',
     marginBottom: 20,
-    marginTop: 30,
+    // marginTop: 30,
+    color: '#000000',
   },
   accordionButtonLogin: {
     backgroundColor: '#ffffff',
     paddingLeft: 50,
-    // paddingRight: 10,
     paddingBottom: 80,
     paddingTop: 80,
     width: '100%',
     borderTopRightRadius: 200,
     overflow: 'hidden',
   },
-  accordionButtonRegister: {
-    backgroundColor: '#C54436',
-    paddingLeft: 50,
-    paddingBottom: 30,
-    paddingTop: 30,
-    width: '100%',
-  },
   accordionButtonTextLog: {
     color: '#C54436',
     fontSize: 26,
-  },
-  accordionButtonTextReg: {
-    color: '#ffffff',
-    fontSize: 26,
-  },
-  accordionBox: {
-    backgroundColor: '#c54436',
-    width: '100%',
-    borderTopRightRadius: 200,
-    overflow: 'hidden',
-    marginTop: 10,
-  },
-  accordionContentReg: {
-    backgroundColor: '#c54436',
-    width: '100%',
   },
   formContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     padding: 10,
     borderRadius: 10,
+    marginTop: 30,
     width: '80%',
-    // alignItems: 'center',
   },
   input: {
     width: '100%',
@@ -177,10 +186,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  accordionContentLog: {
-    backgroundColor: '#ffffff',
-    padding: 25,
-    width: '100%',
+  disabledButton: {
+    opacity: 0.5,
+  },
+
+  goBackButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+    alignSelf: 'flex-start',
+  },
+
+  goBackButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    textAlign: 'left',
+    fontWeight: 'bold',
   },
 });
 

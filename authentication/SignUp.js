@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const Reg = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const handleEmailSignUp = () => {
     navigation.navigate('EmailReg');
   };
@@ -21,6 +21,7 @@ const Reg = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* Continue registration with email address */}
       <TouchableOpacity style={styles.button} onPress={handleEmailSignUp}>
         <View style={styles.buttonContent}>
           <FontAwesome name="envelope" size={20} color="#C54436" style={styles.icon} />
@@ -28,6 +29,7 @@ const Reg = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
+      {/* Continue registration with Apple ID */}
       <TouchableOpacity style={styles.button} onPress={handleAppleSignUp}>
         <View style={styles.buttonContent}>
           <FontAwesome name="apple" size={20} color="#C54436" style={styles.icon} />
@@ -35,6 +37,7 @@ const Reg = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
+      {/* Continue registration with Facebook */}
       <TouchableOpacity style={styles.button} onPress={handleFacebookSignUp}>
         <View style={styles.buttonContent}>
           <FontAwesome name="facebook" size={20} color="#C54436" style={styles.icon} />
@@ -42,6 +45,7 @@ const Reg = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
+      {/* Continue registration with email Google */}
       <TouchableOpacity style={styles.button} onPress={handleGoogleSignUp}>
         <View style={styles.buttonContent}>
           <FontAwesome name="google" size={20} color="#C54436" style={styles.icon} />
@@ -83,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Reg;
+export default SignUp;
