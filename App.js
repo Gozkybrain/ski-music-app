@@ -11,6 +11,7 @@ import AuthMe from './authentication/AuthMe';
 import EmailReg from './authentication/EmailReg';
 import VerifyEmail from './authentication/VerifyEmail';
 import AuthMain from './authentication/AuthMain';
+import Home from './explore/Home';
 
 // Setting up a stack navigator
 const Stack = createStackNavigator();
@@ -22,10 +23,6 @@ const App = () => {
     <NavigationContainer>
       {/* Stack navigator manages the navigation flow */}
       <Stack.Navigator initialRouteName="Splash">
-
-        {/* New Page Screen used as a test */}
-        <Stack.Screen name="NewPage" component={NewPage} options={{ headerShown: true }} />
-
         {/* Splash screen displayed first */}
         <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
 
@@ -52,6 +49,12 @@ const App = () => {
 
         {/* VerifyEmail screen to send email OTP verification during registration */}
         <Stack.Screen name="VerifyEmail" component={VerifyEmail} options={{ headerShown: false }} />
+
+        {/* New Page Screen is the loader before Home Access */}
+        <Stack.Screen name="NewPage" component={NewPage} options={{ headerShown: false }} />
+
+        {/* Home screen after login access */}
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

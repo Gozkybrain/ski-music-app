@@ -1,141 +1,92 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+// Inside your NewPage component
+import React, { useEffect, useRef } from 'react';
+import { View, Animated, StyleSheet } from 'react-native';
 
 const NewPage = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  // Define animated values for the opacity of the images
+  const opacityValue1 = useRef(new Animated.Value(0)).current;
+  const opacityValue2 = useRef(new Animated.Value(0)).current;
 
-    const handleContinue = () => {
-        // Validate email and password
-        if (email.trim() !== '' && password.trim() !== '' && password === confirmPassword) {
-            // Navigate to HomeScreen
-            navigation.navigate('HomeScreen');
-            // Show success alert
-            Alert.alert('Success', 'Password changed successfully!');
-        } else {
-            // Show error message or handle invalid input
-            Alert.alert('Error', 'Please enter valid email and matching passwords.');
-        }
-    };
+  useEffect(() => {
+    // Define the sequence of animations
+    const sequenceAnimation = Animated.sequence([
+      // Animation for the first image fading in
+      Animated.timing(opacityValue1, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }),
+      // Animation for the first image fading out
+      Animated.timing(opacityValue1, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      // Animation for the second image fading in
+      Animated.timing(opacityValue2, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }),
+      // Animation for the second image fading out
+      Animated.timing(opacityValue2, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]);
 
-    return (
-        <View style={styles.container}>
-            {/* Background image */}
-            <Image
-                source={require('../assets/otp.png')}
-                style={styles.backgroundImage}
-            />
+    // Start the sequence of animations
+    sequenceAnimation.start(() => {
+      // Navigate to the next screen after animations complete
+      navigation.navigate('Home');
+    });
+  }, []);
 
-            {/* Header */}
-            <View style={styles.header}>
-                <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
-            </View>
+  return (
+    <View style={styles.container}>
+      {/* Background color */}
+      <View style={styles.background}>
+        {/* First animated image */}
+        <Animated.Image
+          source={require('../assets/vLogo.png')}
+          style={[styles.backgroundImage, { opacity: opacityValue1 }]}
+          resizeMode="contain"
+        />
+      </View>
 
-            {/* Body */}
-            <View style={styles.body}>
-
-                {/* Black gradient */}
-                <LinearGradient
-                    colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-                    style={styles.gradient}
-                />
-                {/* Forget Password content */}
-                <View style={styles.accordionButtonLogin}>
-                    <Text style={styles.accordionButtonTextLog}>
-                        This is an empty page, contents are still in development and will be fixed here shortly</Text>
-
-                </View>
-            </View>
-        </View>
-    );
+      {/* Second animated image */}
+      <Animated.Image
+        source={require('../assets/hLogo.png')}
+        style={[styles.image, { opacity: opacityValue2 }]}
+        resizeMode="contain"
+      />
+    </View>
+  );
 };
 
-// Stylesheet
+// Stylesheet for SplashScreen component
 const styles = StyleSheet.create({
-    header: {
-        paddingTop: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    logo: {
-        width: 150,
-        height: 70,
-    },
-    body: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    container: {
-        flex: 1,
-    },
-    accordionLogin: {
-        backgroundColor: '#ffffff',
-        borderTopRightRadius: 100,
-        overflow: 'hidden',
-    },
-    gradient: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        height: '60%',
-    },
-    backgroundImage: {
-        flex: 1,
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-    },
-    title: {
-        fontSize: 18,
-        fontFamily: 'Trebuchet MS',
-        marginBottom: 20,
-        marginTop: 30,
-    },
-    accordionButtonLogin: {
-        backgroundColor: '#ffffff',
-        padding: 50,
-        paddingBottom: 80,
-        paddingTop: 80,
-        width: '100%',
-        borderTopRightRadius: 200,
-        overflow: 'hidden',
-    },
-    accordionButtonTextLog: {
-        color: '#C54436',
-        fontSize: 26,
-    },
-    formContainer: {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        // padding: 10,
-        borderRadius: 10,
-        width: '80%',
-    },
-    input: {
-        width: '100%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        marginBottom: 20,
-    },
-    continueButton: {
-        backgroundColor: '#C54436',
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        borderRadius: 5,
-    },
-    continueButtonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#283d3b', // Background color
+    alignItems: 'center', // Center horizontally
+    justifyContent: 'center', // Center vertically
+  },
+  backgroundImage: {
+    width: 150, // Adjust the width of the first image
+    height: 150, // Adjust the height of the first image
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
 });
 
 export default NewPage;

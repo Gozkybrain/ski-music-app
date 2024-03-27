@@ -16,6 +16,13 @@ web-build/
 *.key
 *.mobileprovision
 
+# Test files
+test.html
+test2.html
+testjsx.html
+testingjsx.html
+
+
 # Metro
 .metro-health-check*
 
