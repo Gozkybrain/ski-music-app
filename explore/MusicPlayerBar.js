@@ -1,3 +1,4 @@
+// * The Music Player Bar is not floating yet
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient
@@ -54,12 +55,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    position: 'absolute',
-    bottom: 5,
+    position: 'relative',
+    bottom: 0, // Position at the top of the viewport
     left: 0,
     right: 0,
+    backgroundColor: '#000', // Set the background color
     borderRadius: 7, // Add border radius for a rounded appearance
+    zIndex: 999, // Ensure the container stays above other elements
   },
+  
+  
   thumbnail: {
     width: 50,
     height: 50,

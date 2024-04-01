@@ -25,6 +25,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "LASTFM_API_KEY": "76a2c19dc353fda867366b17336fdab1"
     }
   }
 }

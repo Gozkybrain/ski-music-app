@@ -23,3 +23,12 @@ Payment subscription(for lyrics):
 ## Developer Guide
 The project has been documented such that it can be understood by any level of developer as each component has been carefully commented, it should be a piece of cake for future management.
 
+### USING THE ENV
+```
+npm install --save @react-native-community/cli
+npx react-native link @react-native-community/cli
+npm install --save-dev @types/react-native @types/react
+npm install --save @react-native-community/cli
+npm install --save @react-native-community/cli-platform-ios @react-native-community/cli-platform-android
+```
+

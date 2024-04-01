@@ -6,7 +6,7 @@ import SearchScreen from './SearchScreen';
 import LibraryScreen from './LibraryScreen';
 import SkiMusicScreen from './SkiMusicScreen';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();                                                                         
 
 const HomeScreen = () => {
   return (

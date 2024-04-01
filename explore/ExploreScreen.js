@@ -1,41 +1,75 @@
+// == This explore screen contains components for displaying various songs like recent added, recommended, and artistes
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import MusicPlayerBar from './MusicPlayerBar';
 import thumbnail from '../assets/unavailable.png';
-
+import RecentlyAddedSlider from './RecentlyAddedSlider';
+import RandomTrackSlider from './RandomTrackSlider';
+import Recommended from './TrendingArtistes';
+import TrendingArtistes from './TrendingArtistes';
 
 const ExploreScreen = () => {
   return (
-    <View style={styles.page}>
-      {/* Main content of ExploreScreen */}
-      <View style={styles.mainContent}>
-        <Text style={styles.text}>Explore Screen Content..</Text>
+    <ScrollView style={styles.page}>
+      {/* Profile Image and Text */}
+      <View style={styles.profileContainer}>
+        <Text style={styles.exploreText}>Explore</Text>
+        <View style={styles.profileImageContainer}>
+          <Image
+            source={require('../assets/background-copy.png')} // Replace with actual profile image
+            style={styles.profileImage}
+          />
+        </View>
       </View>
-      
+
+      {/* Recently added music slider */}
+      <RecentlyAddedSlider />
+
+      {/* Random Recommended Songs */}
+      <RandomTrackSlider />
+
+      {/* Recommended Artists */}
+      <TrendingArtistes />
+
+
       {/* MusicPlayerBar at the bottom */}
       <MusicPlayerBar
-  thumbnail={thumbnail}
-  songName="Unavailable"
-  artistName="Davido"
-/>
-
-    </View>
+        thumbnail={thumbnail}
+        songName="Unavailable"
+        artistName="Davido"
+      />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   page: {
-    flex: 1,
     backgroundColor: '#000', // Set black background
   },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
+  profileContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#000', // Set black background
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    marginTop: 50,
   },
-  text: {
-    color: '#fff', // Set white text color
+  profileImageContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 50, // Make it circular
+    borderWidth: 1, // Add border
+    borderColor: '#ff7959', // Set border color to white
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 50, // Make it circular
+  },
+  exploreText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#ff7959',
   },
 });
 
