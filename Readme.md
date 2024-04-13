@@ -32,3 +32,5 @@ npm install --save @react-native-community/cli
 npm install --save @react-native-community/cli-platform-ios @react-native-community/cli-platform-android
 ```
 
+`Note that this project was first tested with Last.FM API before being integrated on the official API`
+

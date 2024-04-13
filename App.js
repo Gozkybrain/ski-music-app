@@ -12,6 +12,9 @@ import EmailReg from './authentication/EmailReg';
 import VerifyEmail from './authentication/VerifyEmail';
 import AuthMain from './authentication/AuthMain';
 import Home from './explore/Home';
+import MusicView from './explore/MusicView';
+import ViewArtiste from './explore/ViewArtiste';
+import ArtisteMusic from './explore/ArtisteMusic';
 
 // Setting up a stack navigator
 const Stack = createStackNavigator();
@@ -55,6 +58,16 @@ const App = () => {
 
         {/* Home screen after login access */}
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+
+        {/* Music View screen when played */}
+        <Stack.Screen name="MusicView" component={MusicView} options={{ headerShown: false }} />
+
+        {/* View Artiste screen */}
+        <Stack.Screen name="ViewArtiste" component={ViewArtiste} options={{ headerShown: false }} />
+
+        {/* View Music by Artiste screen */}
+        <Stack.Screen name="ArtisteMusic" component={ArtisteMusic} options={{ headerShown: true }} />
+
 
       </Stack.Navigator>
     </NavigationContainer>

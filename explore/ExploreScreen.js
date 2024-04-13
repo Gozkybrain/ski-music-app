@@ -1,11 +1,12 @@
 // == This explore screen contains components for displaying various songs like recent added, recommended, and artistes
+// ! The thumbnail above needs to be linked to the profile
+// ! The music player bar needs to be floated too
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import MusicPlayerBar from './MusicPlayerBar';
 import thumbnail from '../assets/unavailable.png';
 import RecentlyAddedSlider from './RecentlyAddedSlider';
 import RandomTrackSlider from './RandomTrackSlider';
-import Recommended from './TrendingArtistes';
 import TrendingArtistes from './TrendingArtistes';
 
 const ExploreScreen = () => {

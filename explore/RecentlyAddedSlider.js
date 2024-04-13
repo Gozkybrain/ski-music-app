@@ -1,20 +1,20 @@
-// * This component contains recently added nigerian music
+// * This component contains recently added Nigerian music
 // ! A component [ViewSong] is required on click of the song
 // Import necessary components and hooks from React and React Native
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 // Define the API key
-const API_KEY = "your_api_key_here"; // Replace "your_api_key_here" with your actual API key
+const API_KEY = "APIKEYHERE";
 
 // Define the RecentlyAddedSlider component
 const RecentlyAddedSlider = () => {
-  // State variables for recently added albums, scroll index, and FlatList reference
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [scrollIndex, setScrollIndex] = useState(0);
   const flatListRef = useRef(null);
+  const navigation = useNavigation(); // Initialize useNavigation
 
-  // Effect hook to fetch recently added albums
   useEffect(() => {
     // Function to fetch the latest albums for a given artist up to the specified limit
     const fetchLatestAlbum = async (artist, limit) => {
@@ -58,23 +58,11 @@ const RecentlyAddedSlider = () => {
       try {
         // Array of artist names whose latest albums will be fetched
         const artistNames = ['asake', 'davido', 'wizkid', 'burna boy', 'omah lay', 'timaya', 'tiwa savage', 'rema', 'ruger', 'ayra starr'];
-
-        // Specify the limit for the number of albums to fetch for each artist
         const limit = 10;
-
-        // Array of promises to fetch latest albums for each artist
         const albumRequests = artistNames.map(artist => fetchLatestAlbum(artist, limit));
-
-        // Wait for all requests to complete
         const albumResponses = await Promise.all(albumRequests);
-
-        // Flatten the array of arrays into a single array of albums
         let recentlyAddedAlbums = albumResponses.flat();
-
-        // Shuffle the array of albums
         recentlyAddedAlbums = shuffle(recentlyAddedAlbums);
-
-        // Set the state with the recently added albums
         setRecentlyAdded(recentlyAddedAlbums);
       } catch (error) {
         console.error('Error fetching recently added albums:', error);
@@ -97,19 +85,26 @@ const RecentlyAddedSlider = () => {
 
   // Render each item in the FlatList
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
+    // TouchableOpacity to make each item clickable
+    <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>
       <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
       <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
       <Text style={styles.artist}>{item.artist}</Text>
-    </View>
+    </TouchableOpacity>
   );
+
+  // Handle press event when an item is clicked
+  const handlePress = (item) => {
+    // Navigate to MusicView screen with the selected music item
+    navigation.navigate('MusicView', { music: item });
+  };
 
   // Handle scrolling to the next item
   const scrollForward = () => {
     if (flatListRef.current && scrollIndex < recentlyAdded.length - 1) {
-      const nextIndex = scrollIndex + 1; // Calculate the index of the next item
-      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true }); // Scroll to the next item
-      setScrollIndex(nextIndex); // Update the scroll index
+      const nextIndex = scrollIndex + 1;
+      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
+      setScrollIndex(nextIndex);
     }
   };
 
@@ -137,7 +132,6 @@ const RecentlyAddedSlider = () => {
       <TouchableOpacity style={styles.arrowContainer} onPress={scrollForward}>
         <Text style={styles.arrow}>➔</Text>
       </TouchableOpacity>
-
       <View style={styles.horizontalLine} />
     </View>
   );
