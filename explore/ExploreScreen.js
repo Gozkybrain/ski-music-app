@@ -1,6 +1,5 @@
 // == This explore screen contains components for displaying various songs like recent added, recommended, and artistes
 // ! The thumbnail above needs to be linked to the profile
-// ! The music player bar needs to be floated too
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import MusicPlayerBar from './MusicPlayerBar';
@@ -11,7 +10,7 @@ import TrendingArtistes from './TrendingArtistes';
 
 const ExploreScreen = () => {
   return (
-    <ScrollView style={styles.page}>
+    <View style={styles.container}>
       {/* Profile Image and Text */}
       <View style={styles.profileContainer}>
         <Text style={styles.exploreText}>Explore</Text>
@@ -23,23 +22,25 @@ const ExploreScreen = () => {
         </View>
       </View>
 
-      {/* Recently added music slider */}
-      <RecentlyAddedSlider />
+      <ScrollView style={styles.page}>
 
-      {/* Random Recommended Songs */}
-      <RandomTrackSlider />
+        {/* Recently added music slider */}
+        <RecentlyAddedSlider />
 
-      {/* Recommended Artists */}
-      <TrendingArtistes />
+        {/* Random Recommended Songs */}
+        <RandomTrackSlider />
 
+        {/* Recommended Artists */}
+        <TrendingArtistes />
 
+      </ScrollView>
       {/* MusicPlayerBar at the bottom */}
       <MusicPlayerBar
         thumbnail={thumbnail}
         songName="Unavailable"
         artistName="Davido"
       />
-    </ScrollView>
+    </View>
   );
 };
 
@@ -47,12 +48,16 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: '#000', // Set black background
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#000', // Set black background
+  },
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
     marginTop: 50,
   },
   profileImageContainer: {

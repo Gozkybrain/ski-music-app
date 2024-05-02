@@ -6,7 +6,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 // Define the API key
-const API_KEY = "APIKEYHERE";
+const API_KEY = 'yourApiKeyHere';
 
 // Define the RandomTrackSlider component
 const RandomTrackSlider = () => {
@@ -57,7 +57,7 @@ const RandomTrackSlider = () => {
     const fetchRecentlyAdded = async () => {
       try {
         // Array of artist names whose latest albums will be fetched
-        const artistNames = ['passenger', 'eminem', 'dean lewis', 'christina perri', 'ed sheeran', 'alec benjamin', 'demi lovato', 'sia', 'imagine dragons'];
+        const artistNames = ['one direction', 'passenger', 'eminem', 'dean lewis', 'christina perri', 'ed sheeran', 'alec benjamin', 'demi lovato', 'sia', 'imagine dragons'];
         const limit = 10;
         const albumRequests = artistNames.map(artist => fetchLatestAlbum(artist, limit));
         const albumResponses = await Promise.all(albumRequests);
@@ -86,7 +86,10 @@ const RandomTrackSlider = () => {
   // Render each item in the FlatList
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>
-      <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
+      {/* 
+  If item.thumbnail exists and is not empty, display the image with the specified URI. Otherwise, render an empty image.
+*/}
+      <Image source={item.thumbnail ? { uri: item.thumbnail } : null} style={styles.thumbnail} />
       <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
       <Text style={styles.artist}>{item.artist}</Text>
     </TouchableOpacity>
@@ -179,6 +182,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: '50%',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: '100%',
     transform: [{ translateY: -25 }], // Adjust to vertically center the arrow
   },
   arrow: {

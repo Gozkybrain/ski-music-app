@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-const API_KEY = "APIKEYHERE";
+const API_KEY = 'yourApiKeyHere';
 
 const TrendingArtistes = () => {
   const [topArtists, setTopArtists] = useState([]);
@@ -130,7 +130,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: '50%',
-    transform: [{ translateY: -25 }],
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: '100%',
+    transform: [{ translateY: -25 }], // Adjust to vertically center the arrow
   },
   arrow: {
     fontSize: 24,

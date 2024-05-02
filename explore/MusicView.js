@@ -1,14 +1,14 @@
 // * This is the music view component
-// ! The play next queue is not built yet, but the open lyrics is built.
-// ! The button to open music options is also not functional yet.
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import MusicDetail from './MusicDetail';
 
 const MusicView = ({ route, navigation }) => {
     // Extract music details from route parameters
     const { music } = route.params;
+    const { artist } = route.params;
 
     // State variables
     const [isFavorite, setIsFavorite] = useState(false); // State to track if the music is favorite
@@ -87,23 +87,24 @@ const MusicView = ({ route, navigation }) => {
         }).start();
     };
 
+
     return (
         <View style={styles.container}>
 
             <View style={styles.artistContainer}>
                 {/* Go Back Button */}
                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-                    <FontAwesome name="chevron-down" size={18} color="#FFFFFF" />
+                    <FontAwesome name="chevron-left" size={18} color="#FFFFFF" />
                 </TouchableOpacity>
                 {/* Open Music Options */}
-                <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.goBackButton} onPress={togglePlayNext}>
                     <FontAwesome6 name="ellipsis-vertical" size={18} color="#FFFFFF" />
                 </TouchableOpacity>
             </View>
 
 
             {/* Album Art */}
-            <Image source={{ uri: music.thumbnail }} style={styles.albumArt} />
+            <Image source={music.thumbnail ? { uri: music.thumbnail } : null} style={styles.albumArt} />
 
             {/* Linear Gradient Background */}
             <LinearGradient colors={['#57301C', 'transparent']} style={styles.gradient}>
@@ -118,9 +119,10 @@ const MusicView = ({ route, navigation }) => {
                             <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={24} color={isFavorite ? '#FF495C' : '#CCCCCC'} />
                         </TouchableOpacity>
                         {/* Open Play Next Queue */}
-                        <TouchableOpacity style={styles.controlButton} onPress={togglePlayNext}>
+                        <TouchableOpacity style={styles.controlButton} onPress={() => navigation.navigate('Recommended', { music: music })}>
                             <FontAwesome name="bars" size={24} color="#FFFFFF" />
                         </TouchableOpacity>
+
                     </View>
                     <Text style={styles.artist}>
                         {/* Artiste Name */}
@@ -168,15 +170,11 @@ const MusicView = ({ route, navigation }) => {
                 {musicExpanded && (
                     <View style={styles.musicContent}>
                         <TouchableOpacity style={styles.musicHeader} onPress={togglePlayNext}>
-                            <Text style={styles.lyricsHeaderText}>{musicExpanded ? 'x' : 'Open'}</Text>
+                            {/* <Text style={styles.lyricsHeaderText}>{lyricsExpanded ? 'Close Lyrics' : 'close'}</Text> */}
+                            <FontAwesome name="times" size={24} color="#FFFFFF" />
                         </TouchableOpacity>
-                        {/* Album Art */}
-                        <Image source={{ uri: music.thumbnail }} style={styles.albumArt} />
-                        <Text style={styles.lyricsText}>
-                            Music info will be here
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolores nesciunt corrupti soluta? Dolore dicta asperiores cum rerum, aspernatur aliquid sint, aut molestiae praesentium, error qui blanditiis. Hic ex in consectetur non at incidunt, quidem dolor, excepturi molestiae eum deserunt tenetur dolorum. Fuga atque debitis ullam corrupti libero officiis ratione voluptates quaerat omnis consequatur, illum perspiciatis doloribus cum soluta esse porro eos maiores perferendis hic, dolore dicta? Assumenda natus magni, error laborum dolorum tempore nobis ut quisquam, voluptates perspiciatis, architecto impedit voluptas quidem reprehenderit quasi. Repellat officia omnis molestiae eveniet nemo, temporibus nulla delectus similique amet soluta dignissimos ducimus, sapiente at! Eos, fugit cum ipsam harum molestiae eveniet animi deleniti expedita, odit quod, repellat nihil blanditiis laboriosam repellendus! Aliquam, voluptate. Necessitatibus, quaerat nobis corrupti vitae explicabo non consequatur dolorem? Quo sit eveniet fugiat ipsam perspiciatis nemo deleniti nihil placeat, obcaecati nulla beatae rerum quis soluta. Libero provident at aperiam vel, cupiditate fugit minus adipisci in. Doloremque, facilis deleniti quo hic perferendis modi, ea unde dolores impedit esse omnis repellat exercitationem odit, debitis officia provident possimus. Nam odit, maxime in quas illo aliquid expedita pariatur ab? Quis nisi vero, corporis est ea, ipsum inventore blanditiis, adipisci optio eveniet impedit veritatis eaque veniam minima possimus cumque corrupti ducimus nesciunt eos. Magni deserunt libero a modi nulla dicta, earum vel temporibus, fuga voluptatem totam natus veritatis saepe dolores pariatur, corrupti est asperiores repellendus? Dolorem dignissimos quasi dolore incidunt. Quos, iusto cum hic corporis minima accusamus, soluta beatae sit unde atque quae itaque recusandae laboriosam assumenda quisquam blanditiis! Labore, sequi molestias. Inventore repudiandae a doloribus sit corrupti, totam, quod optio mollitia doloremque at culpa deleniti unde ipsa quia, ut qui accusantium tenetur maxime exercitationem voluptates reprehenderit? Atque officiis, beatae possimus perferendis sequi illum porro quae nemo eveniet dolores ut ad tenetur quod dolorum magnam?
-                        </Text>
-                        {/* Add your lyrics content here */}
+                        {/* Display Music Details */}
+                        <MusicDetail />
                     </View>
                 )}
             </Animated.View>
@@ -191,8 +189,9 @@ const MusicView = ({ route, navigation }) => {
                 {lyricsExpanded && (
                     <View style={styles.lyricsContent}>
                         <Text style={styles.lyricsText}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit officiis aut magni aliquam rem voluptas vitae consequatur, nostrum minus libero quasi asperiores accusamus debitis, nihil molestiae, praesentium inventore excepturi. Minus, dolores ullam? Sit obcaecati debitis ipsa fuga repellendus. Illo, iusto. Neque consequuntur officiis, libero, fugit optio fuga, nesciunt ullam corrupti laborum adipisci nam maiores soluta sapiente. Unde, repellendus ipsum eos architecto mollitia temporibus illo repudiandae exercitationem corrupti adipisci velit, dolore at asperiores non voluptatibus, dolorem incidunt quaerat dicta ex consequuntur aspernatur amet. Aliquam vel, ullam ipsam fugiat nulla minus? Molestias ad at assumenda iure ipsa! Est qui tempora pariatur culpa asperiores ducimus amet quod velit quos, ratione sed, suscipit aliquam error explicabo id rerum voluptates odit minus nam blanditiis possimus, quibusdam at expedita. Optio laborum excepturi qui eveniet deleniti hic accusamus ipsam, sit esse nisi voluptatum maiores cumque aliquid numquam ad quod voluptate neque veritatis? Aspernatur blanditiis odit sed ducimus reprehenderit provident! Vero, earum quod consequatur atque veritatis facilis sint eaque repudiandae at iste necessitatibus totam sequi animi voluptatem, magnam dolor optio? Officia laboriosam culpa, necessitatibus id consequatur ratione fuga ut sit libero architecto eaque tempora minus suscipit placeat voluptatibus autem, natus quidem repudiandae magnam illum corrupti pariatur ad! Suscipit asperiores veniam dolores quis aspernatur alias consequuntur nihil et quo, explicabo minus pariatur doloribus quidem odit maiores! Consectetur eos veritatis, recusandae repudiandae expedita a ratione, ex ad, in molestias labore. Amet beatae atque quibusdam at quidem laborum sunt pariatur obcaecati exercitationem quisquam eius quis maiores, accusantium totam, libero dicta officia, sapiente nam veniam illum sequi corporis? Omnis ab repellendus ducimus, doloremque adipisci repudiandae officia libero cumque, impedit illo asperiores similique. Veniam ipsa esse alias commodi et! Doloribus, aliquid? Perferendis quasi sed in iure aut, magnam rerum facilis? Reprehenderit ipsam veritatis nostrum iure modi ab tempore suscipit atque. Nostrum, repellendus voluptatum.                        </Text>
-                        {/* Add your lyrics content here */}
+                            {/* Add your lyrics content here */}
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit officiis aut magni aliquam rem voluptas vitae consequatur, nostrum minus libero quasi asperiores accusamus debitis, nihil molestiae, praesentium inventore excepturi. Minus, dolores ullam? Sit obcaecati debitis ipsa fuga repellendus. Illo, iusto. Neque consequuntur officiis, libero, fugit optio fuga, nesciunt ullam corrupti laborum adipisci nam maiores soluta sapiente. Unde, repellendus ipsum eos architecto mollitia temporibus illo repudiandae exercitationem corrupti adipisci velit, dolore at asperiores non voluptatibus, dolorem incidunt quaerat dicta ex consequuntur aspernatur amet. Aliquam vel, ullam ipsam fugiat nulla minus? Molestias ad at assumenda iure ipsa! Est qui tempora pariatur culpa asperiores ducimus amet quod velit quos, ratione sed, suscipit aliquam error explicabo id rerum voluptates odit minus nam blanditiis possimus, quibusdam at expedita. Optio laborum excepturi qui eveniet deleniti hic accusamus ipsam, sit esse nisi voluptatum maiores cumque aliquid numquam ad quod voluptate neque veritatis? Aspernatur blanditiis odit sed ducimus reprehenderit provident! Vero, earum quod consequatur atque veritatis facilis sint eaque repudiandae at iste necessitatibus totam sequi animi voluptatem, magnam dolor optio? Officia laboriosam culpa, necessitatibus id consequatur ratione fuga ut sit libero architecto eaque tempora minus suscipit placeat voluptatibus autem, natus quidem repudiandae magnam illum corrupti pariatur ad! Suscipit asperiores veniam dolores quis aspernatur alias consequuntur nihil et quo, explicabo minus pariatur doloribus quidem odit maiores! Consectetur eos veritatis, recusandae repudiandae expedita a ratione, ex ad, in molestias labore. Amet beatae atque quibusdam at quidem laborum sunt pariatur obcaecati exercitationem quisquam eius quis maiores, accusantium totam, libero dicta officia, sapiente nam veniam illum sequi corporis? Omnis ab repellendus ducimus, doloremque adipisci repudiandae officia libero cumque, impedit illo asperiores similique. Veniam ipsa esse alias commodi et! Doloribus, aliquid? Perferendis quasi sed in iure aut, magnam rerum facilis? Reprehenderit ipsam veritatis nostrum iure modi ab tempore suscipit atque. Nostrum, repellendus voluptatum.
+                        </Text>
                     </View>
                 )}
             </Animated.View>
@@ -214,6 +213,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 15,
         paddingTop: 30,
+        paddingHorizontal: 3,
     },
     albumArt: {
         width: '95%',
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#000',
+        backgroundColor: '#222827',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         padding: 20,
@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
         marginBottom: 0,
     },
     musicHeader: {
-        alignItems: 'right',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
         marginBottom: 0,
     },
     lyricsHeaderText: {
@@ -327,7 +328,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         // marginBottom: 20,
-        width: '80%', // Adjust the width as needed
+        width: '90%', // Adjust the width as needed
     },
 });
 

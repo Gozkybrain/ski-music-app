@@ -1,12 +1,11 @@
 // * This component contains recently added Nigerian music
-// ! A component [ViewSong] is required on click of the song
 // Import necessary components and hooks from React and React Native
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 // Define the API key
-const API_KEY = "APIKEYHERE";
+const API_KEY = 'yourApiKeyHere';
 
 // Define the RecentlyAddedSlider component
 const RecentlyAddedSlider = () => {
@@ -83,15 +82,28 @@ const RecentlyAddedSlider = () => {
     return images[0]['#text'];
   };
 
-  // Render each item in the FlatList
+  // Define the renderItem function
   const renderItem = ({ item }) => (
-    // TouchableOpacity to make each item clickable
+    // Render each item in the FlatList
     <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>
-      <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
+      {/* If item.thumbnail exists and is not empty, display the image with the specified URI. Otherwise, render an empty image. */}
+      <Image source={item.thumbnail ? { uri: item.thumbnail } : null} style={styles.thumbnail} />
       <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
       <Text style={styles.artist}>{item.artist}</Text>
     </TouchableOpacity>
   );
+
+  // Use the renderItem function in FlatList
+  <FlatList
+    ref={flatListRef}
+    data={recentlyAdded}
+    renderItem={renderItem} // Ensure renderItem is assigned correctly here
+    keyExtractor={item => item.id.toString()}
+    horizontal
+    showsHorizontalScrollIndicator={false}
+  />
+
+
 
   // Handle press event when an item is clicked
   const handlePress = (item) => {
@@ -117,24 +129,31 @@ const RecentlyAddedSlider = () => {
     return array;
   };
 
-  // JSX structure of the component
-  return (
-    <View style={styles.container}>
-      <Text style={styles.sliderTitle}>Recently Added</Text>
-      <FlatList
-        ref={flatListRef}
-        data={recentlyAdded}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      />
-      <TouchableOpacity style={styles.arrowContainer} onPress={scrollForward}>
-        <Text style={styles.arrow}>➔</Text>
-      </TouchableOpacity>
-      <View style={styles.horizontalLine} />
-    </View>
-  );
+ // JSX structure of the component
+return (
+  <View style={styles.container}>
+    <Text style={styles.sliderTitle}>Recently Added</Text>
+    <FlatList
+      ref={flatListRef}
+      data={recentlyAdded}
+      renderItem={({ item }) => ( // Define renderItem inline here
+        <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>
+          {/* If item.thumbnail exists and is not empty, display the image with the specified URI. Otherwise, render an empty image. */}
+          <Image source={item.thumbnail ? { uri: item.thumbnail } : null} style={styles.thumbnail} />
+          <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
+          <Text style={styles.artist}>{item.artist}</Text>
+        </TouchableOpacity>
+      )}
+      keyExtractor={item => item.id.toString()}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    />
+    <TouchableOpacity style={styles.arrowContainer} onPress={scrollForward}>
+      <Text style={styles.arrow}>➔</Text>
+    </TouchableOpacity>
+    <View style={styles.horizontalLine} />
+  </View>
+);
 };
 
 // Styles for the component
@@ -180,6 +199,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: '50%',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: '100%',
     transform: [{ translateY: -25 }], // Adjust to vertically center the arrow
   },
   arrow: {

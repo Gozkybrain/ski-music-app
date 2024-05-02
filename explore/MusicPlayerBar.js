@@ -1,20 +1,48 @@
 // * The Music Player Bar is not floating yet
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient
-import { FontAwesome5 } from '@expo/vector-icons'; // Import FontAwesome icons
+import { FontAwesome5, FontAwesome } from '@expo/vector-icons'; // Import FontAwesome icons
 import thumbnail from '../assets/unavailable.png'; // Import the image
 
 const MusicPlayerBar = ({ songName, artistName }) => {
-  // Function to handle previous song
-  const handlePrev = () => {
-    // Add logic for previous song here
-  };
+  // state variables
+  const [isFavorite, setIsFavorite] = useState(false); // State to track if the music is favorite
+  const [isPause, setIsPause] = useState(false); // State to track play/pause
+  const [isShuffled, setIsShuffled] = useState(false); // State to track shuffle mode
+  const [isRepeatOne, setIsRepeatOne] = useState(false); // State to track repeat mode
+  const [progress, setProgress] = useState(0); // State to track playback progress
+  
+ // Toggle play/pause state
+ const handlePlay = () => {
+  setIsPause(!isPause);
+};
 
-  // Function to handle next song
-  const handleNext = () => {
-    // Add logic for next song here
-  };
+// Handle next track action
+const handleNext = () => {
+  console.log('Next track');
+};
+
+// Handle previous track action
+const handlePrev = () => {
+  console.log('Previous track');
+};
+
+// Toggle favorite state
+const handleToggleFavorite = () => {
+  setIsFavorite(!isFavorite);
+};
+
+// Toggle shuffle state
+const handleToggleShuffle = () => {
+  setIsShuffled(!isShuffled);
+};
+
+// Toggle repeat state
+const handleToggleRepeat = () => {
+  setIsRepeatOne(!isRepeatOne);
+};
+
 
   return (
     // Container with a linear gradient background
@@ -31,19 +59,27 @@ const MusicPlayerBar = ({ songName, artistName }) => {
       <View style={styles.infoContainer}>
         <Text style={styles.songName}>{songName}</Text>
         <Text style={styles.artistName}>{artistName}</Text>
+
+            {/* Progress Bar */}
+       <View style={styles.progressBarContainer}>
+              <View style={[styles.progressBar, { width: `${progress * 100}%` }]} />
+            </View>
       </View>
 
       {/* Controls for playing and skipping songs */}
       <View style={styles.controls}>
-        {/* Play button */}
-        <TouchableOpacity style={styles.playButton}>
-          <FontAwesome5 name="play" size={16} color="#fff" />
-        </TouchableOpacity>
-
-        {/* Next button */}
-        <TouchableOpacity style={styles.controlButton} onPress={handleNext}>
-          <FontAwesome5 name="forward" size={16} color="#fff" />
-        </TouchableOpacity>
+        {/* Toggle Pause and Play Button */}
+        <TouchableOpacity style={styles.iconContainer} onPress={handlePlay}>
+            <FontAwesome name={isPause ? 'play' : 'pause'} size={20} color={isPause ? '#FFF' : '#CCCCCC'} />
+          </TouchableOpacity>
+          {/* Next Song Button */}
+          <TouchableOpacity style={styles.iconContainer} onPress={handleNext}>
+            <FontAwesome name="step-forward" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+          {/* Favorite button */}
+          <TouchableOpacity style={styles.iconContainer} onPress={handleToggleFavorite}>
+            <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={20} color={isFavorite ? '#FF495C' : '#CCCCCC'} />
+          </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -59,8 +95,7 @@ const styles = StyleSheet.create({
     bottom: 0, // Position at the top of the viewport
     left: 0,
     right: 0,
-    backgroundColor: '#000', // Set the background color
-    borderRadius: 7, // Add border radius for a rounded appearance
+    borderRadius: 0, // Add border radius for a rounded appearance
     zIndex: 999, // Ensure the container stays above other elements
   },
   
@@ -78,6 +113,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff', // Set text color to white
+  },
+  progressBarContainer: {
+    width: 200,
+    height: 5,
+    marginTop: 10,
+    backgroundColor: '#fe7958',
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+  },
+  iconContainer: {
+    padding: 10,
   },
   artistName: {
     fontSize: 14,

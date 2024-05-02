@@ -1,13 +1,13 @@
 // * THIS PAGE DISPLAYS LIST OF SONGS BY AN ARTISTE
 // ! The music cards can open ArtisteMusic to play the song
-// ! The buttons opens a modal to serve as music info [not fixed]
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
+import MusicDetail from './MusicDetail';
 import ArtisteMusic from './ArtisteMusic';
 
 //  API KEY
-const LAST_FM_API_KEY = 'APIKEYHERE';
+const LAST_FM_API_KEY = 'yourApiKeyHere';
 
 // Declare all required variables
 const ViewArtiste = ({ route, navigation }) => {
@@ -94,7 +94,7 @@ const ViewArtiste = ({ route, navigation }) => {
                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                     <FontAwesome6 name="chevron-left" size={18} color="#FFFFFF" />
                 </TouchableOpacity>
-                <Text style={styles.artistName}>{artistName}</Text>
+                <Text style={styles.artistName} onPress={() => navigation.goBack()}>{artistName}</Text>
             </View>
             {/* Display the latest album image if available */}
             {latestAlbumImage ? (
@@ -112,12 +112,13 @@ const ViewArtiste = ({ route, navigation }) => {
                 ListEmptyComponent={<Text>No top albums found for this artist.</Text>}
             />
 
-
             {/* Modal to display the selected album image as info */}
             {selectedAlbum && (
                 <Modal visible={true} transparent={true} onRequestClose={closeModal}>
                     <View style={styles.modalContainer}>
                         <Image source={{ uri: selectedAlbum.image[2]['#text'] }} style={styles.modalImage} />
+                        {/* display music details */}
+                        <MusicDetail />
                         <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                             <FontAwesome6 name="times-circle" size={24} color="#FFFFFF" />
                         </TouchableOpacity>
@@ -181,18 +182,20 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
+        paddingVertical: 20,
         // textAlign: 'center',
-        flex: 1, // Take remaining space
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: '#222827',
+        // backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
     modalImage: {
         width: 300,
         height: 300,
+        marginVertical: 40,
         borderRadius: 10,
     },
     closeButton: {

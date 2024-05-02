@@ -15,6 +15,7 @@ import Home from './explore/Home';
 import MusicView from './explore/MusicView';
 import ViewArtiste from './explore/ViewArtiste';
 import ArtisteMusic from './explore/ArtisteMusic';
+import Recommended from './explore/Recommended';
 
 // Setting up a stack navigator
 const Stack = createStackNavigator();
@@ -66,8 +67,10 @@ const App = () => {
         <Stack.Screen name="ViewArtiste" component={ViewArtiste} options={{ headerShown: false }} />
 
         {/* View Music by Artiste screen */}
-        <Stack.Screen name="ArtisteMusic" component={ArtisteMusic} options={{ headerShown: true }} />
+        <Stack.Screen name="ArtisteMusic" component={ArtisteMusic} options={{ headerShown: false }} />
 
+        {/* View Music by Recommended Music screen */}
+        <Stack.Screen name="Recommended" component={Recommended} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -10,7 +10,7 @@
     "postinstall": "expo customize:web && expo prebuild --web",
     "build:android": "expo build:android",
     "build:ios": "expo build:ios"
-  },  
+  },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
     "@react-native-community/cli": "^13.6.4",
