@@ -1,23 +1,24 @@
 // * The ArtisteView screen will house a music play mode with play next queue embedded
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { FontAwesome, FontAwesome6 } from '@expo/vector-icons'; // Assuming you're using FontAwesome for icons
+import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using FontAwesome for icons
 
 const ArtisteMusic = ({ route, navigation }) => {
   // Extract the 'music' object from the 'route.params' passed from navigation
   const { music } = route.params;
-  const { artist } = route.params;
 
   // State variables
   const [isFavorite, setIsFavorite] = useState(false); // State to track if the music is favorite
   const [isPause, setIsPause] = useState(false); // State to track play/pause
-  const [isRepeatOne, setIsRepeatOne] = useState(false); // State to track repeat mode
   const [progress, setProgress] = useState(0); // State to track playback progress
   const [latestAlbums, setLatestAlbums] = useState([]); // State to store latest albums
 
-  // API key and endpoint
-  const API_KEY = 'yourApiKeyHere';
-  const API_ENDPOINT = 'https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=' + music.artist.name + '&api_key=' + API_KEY + '&format=json';
+  // API key
+  const API_KEY = '76a2c19dc353fda867366b17336fdab1';
+
+  // Array of artist names whose latest albums will be fetched
+  const artistNames = ['asake', 'davido', 'wizkid', 'burna boy', 'omah lay', 'timaya', 'tiwa savage', 'rema', 'ruger', 'ayra starr'];
+        const limit = 10;
 
   // UseEffect to simulate track progress and update progress bar
   useEffect(() => {
@@ -39,23 +40,58 @@ const ArtisteMusic = ({ route, navigation }) => {
   }, []); // Run effect only once on component mount
 
   // Function to fetch latest albums from API
-const fetchLatestAlbums = async () => {
-  try {
-    const response = await fetch(API_ENDPOINT);
-    if (!response.ok) {
-      throw new Error('Failed to fetch latest albums');
-    }
-    const data = await response.json();
-    if (data && data.topalbums && data.topalbums.album && data.topalbums.album.length > 0) {
-      setLatestAlbums(data.topalbums.album);
-    } else {
-      console.error('No latest albums found');
-    }
-  } catch (error) {
-    console.error('Error fetching latest albums:', error);
-  }
-};
+  const fetchLatestAlbums = async () => {
+    try {
+      // Array to store album promises
+      const albumPromises = artistNames.map(async (artist) => {
+        // Fetch data from the Last.fm API for the top albums of the artist
+        const response = await fetch(
+          `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${API_KEY}&format=json&limit=${limit}`
+        );
 
+        // Check if the response is ok
+        if (!response.ok) {
+          throw new Error(`Failed to fetch albums for ${artist}`);
+        }
+
+        // Parse the response data
+        const data = await response.json();
+
+        // Extract information about the latest album
+        if (data && data.topalbums && data.topalbums.album && data.topalbums.album.length > 0) {
+          const album = data.topalbums.album[0];
+          return {
+            id: album.url,
+            title: album.name,
+            artist: album.artist.name,
+            thumbnail: getThumbnailUrl(album.image),
+          };
+        } else {
+          console.error(`No albums found for ${artist}`);
+          return null;
+        }
+      });
+
+      // Wait for all album promises to resolve
+      const albums = await Promise.all(albumPromises);
+
+      // Filter out null values and update the state with the latest albums
+      setLatestAlbums(albums.filter(album => album !== null));
+    } catch (error) {
+      console.error('Error fetching latest albums:', error);
+    }
+  };
+
+  // Helper function to extract the URL for the thumbnail image
+  const getThumbnailUrl = (images) => {
+    for (let i = 0; i < images.length; i++) {
+      if (images[i]['size'] === 'large') {
+        return images[i]['#text'];
+      }
+    }
+    // Return the first image if no 'large' image is found
+    return images[0]['#text'];
+  };
 
   // Toggle play/pause state
   const handlePlay = () => {
@@ -68,42 +104,28 @@ const fetchLatestAlbums = async () => {
     console.log('Next track');
   };
 
-  // Handle previous track action
-  const handlePrev = () => {
-    console.log('Previous track');
-  };
-
   // Toggle favorite state
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
 
-  // Toggle shuffle state
-  const handleToggleShuffle = () => {
-    setIsShuffled(!isShuffled);
-  };
+// Render each album item in the list
+const handleAlbumPress = (album) => {
+  navigation.push('MusicView', { music: album }); // Pass 'album' as the 'music' parameter
+};
 
-  // Toggle repeat state
-  const handleToggleRepeat = () => {
-    setIsRepeatOne(!isRepeatOne);
-  };
 
-  // Render each album item in the list
-  const handleAlbumPress = (album) => {
-    navigation.push('ArtisteMusic', { music: album, artist: album.artist });
-  };
-
-  // Render each album item with touchableOpacity
-  const renderAlbumItem = (album, index) => (
-    <TouchableOpacity key={index} style={styles.albumContainer} onPress={() => handleAlbumPress(album)}>
-      {/* Check if album image exists and has the required URI before setting the Image source */}
-      <Image source={album.image && album.image[2] && album.image[2]['#text'] ? { uri: album.image[2]['#text'] } : null} style={styles.albumThumbnail} />
-      <View style={styles.albumDetails}>
-        <Text style={styles.albumTitle}>{album.name}</Text>
-        <Text style={styles.albumArtist}>{album.artist.name}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+// Render each album item with TouchableOpacity
+const renderAlbumItem = (album, index) => (
+  <TouchableOpacity key={index} style={styles.albumContainer} onPress={() => handleAlbumPress(album)}>
+    {/* Check if album image exists and has the required URI before setting the Image source */}
+    <Image source={{ uri: album.thumbnail }} style={styles.albumThumbnail} />
+    <View style={styles.albumDetails}>
+      <Text style={styles.albumTitle}>{album.title}</Text>
+      <Text style={styles.albumArtist}>{album.artist}</Text>
+    </View>
+  </TouchableOpacity>
+);
 
   return (
     <View style={styles.container}>
@@ -123,7 +145,7 @@ const fetchLatestAlbums = async () => {
       {/* Main player controls */}
       <View style={styles.mainContainer}>
         {/* Display the album cover image */}
-        <Image source={{ uri: music.image[2]['#text'] }} style={styles.thumbnail} />
+        <Image source={{ uri: music.image && music.image[2] && music.image[2]['#text'] }} style={styles.thumbnail} />
 
         {/* Display the title and artist's name */}
         <View style={styles.infoContainer}>

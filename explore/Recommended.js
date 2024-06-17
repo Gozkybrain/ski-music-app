@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'; // Import useNavigatio
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 
 // Define the API key
-const API_KEY = 'yourApiKeyHere';
+const API_KEY = '76a2c19dc353fda867366b17336fdab1';
 
 // Define the Recommended component
 const Recommended = () => {

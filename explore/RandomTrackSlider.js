@@ -6,7 +6,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 // Define the API key
-const API_KEY = 'yourApiKeyHere';
+const API_KEY = '76a2c19dc353fda867366b17336fdab1';
 
 // Define the RandomTrackSlider component
 const RandomTrackSlider = () => {

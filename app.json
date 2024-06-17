@@ -21,13 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.gozkybrain.skiMusic"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "LASTFM_API_KEY": "76a2c19dc353fda867366b17336fdab1"
+      "LASTFM_API_KEY": "76a2c19dc353fda867366b17336fdab1",
+      "eas": {
+        "projectId": "116e7f3c-5f5d-4b2b-85f5-1478f282c8e1"
+      }
     }
   }
 }

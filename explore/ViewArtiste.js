@@ -7,7 +7,7 @@ import MusicDetail from './MusicDetail';
 import ArtisteMusic from './ArtisteMusic';
 
 //  API KEY
-const LAST_FM_API_KEY = 'yourApiKeyHere';
+const LAST_FM_API_KEY = '76a2c19dc353fda867366b17336fdab1';
 
 // Declare all required variables
 const ViewArtiste = ({ route, navigation }) => {

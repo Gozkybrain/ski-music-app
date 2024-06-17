@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-const API_KEY = 'yourApiKeyHere';
+const API_KEY = '76a2c19dc353fda867366b17336fdab1';
 
 const TrendingArtistes = () => {
   const [topArtists, setTopArtists] = useState([]);

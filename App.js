@@ -16,6 +16,20 @@ import MusicView from './explore/MusicView';
 import ViewArtiste from './explore/ViewArtiste';
 import ArtisteMusic from './explore/ArtisteMusic';
 import Recommended from './explore/Recommended';
+// * Importing Screens for Music Genre
+import Afrobeats from './explore/genre/Afrobeats';
+import Country from './explore/genre/Country';
+import ForYou from './explore/genre/ForYou';
+import HipHop from './explore/genre/HipHop';
+import Karaoke from './explore/genre/Karaoke';
+import Party from './explore/genre/Party';
+import Rnb from './explore/genre/Rnb';
+import TopChart from './explore/genre/TopChart';
+import Trap from './explore/genre/Trap';
+import Pop from './explore/genre/PopScreen';
+
+
+
 
 // Setting up a stack navigator
 const Stack = createStackNavigator();
@@ -70,7 +84,37 @@ const App = () => {
         <Stack.Screen name="ArtisteMusic" component={ArtisteMusic} options={{ headerShown: false }} />
 
         {/* View Music by Recommended Music screen */}
-        <Stack.Screen name="Recommended" component={Recommended} options={{ headerShown: false }} />
+        <Stack.Screen name="Recommended" component={Recommended} options={{ headerShown: false }} /> 
+        
+        {/* View Music by Recommended Pop genre */}
+        <Stack.Screen name="Pop" component={Pop} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Afrobeats genre */}
+        <Stack.Screen name="Afrobeats" component={Afrobeats} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Country genre */}
+        <Stack.Screen name="Country" component={Country} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended ForYou genre */}
+        <Stack.Screen name="ForYou" component={ForYou} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended HipHop genre */}
+        <Stack.Screen name="HipHop" component={HipHop} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Karaoke genre */}
+        <Stack.Screen name="Karaoke" component={Karaoke} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Party genre */}
+        <Stack.Screen name="Party" component={Party} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Rnb genre */}
+        <Stack.Screen name="Rnb" component={Rnb} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended TopChart genre */}
+        <Stack.Screen name="TopChart" component={TopChart} options={{ headerShown: false }} />
+
+        {/* View Music by Recommended Trap genre */}
+        <Stack.Screen name="Trap" component={Trap} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>
