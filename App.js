@@ -16,6 +16,7 @@ import MusicView from './explore/MusicView';
 import ViewArtiste from './explore/ViewArtiste';
 import ArtisteMusic from './explore/ArtisteMusic';
 import Recommended from './explore/Recommended';
+import AlbumView from './explore/AlbumView';
 // * Importing Screens for Music Genre
 import Afrobeats from './explore/genre/Afrobeats';
 import Country from './explore/genre/Country';
@@ -115,6 +116,9 @@ const App = () => {
 
         {/* View Music by Recommended Trap genre */}
         <Stack.Screen name="Trap" component={Trap} options={{ headerShown: false }} />
+
+         {/* Album view for Top Albums */}
+         <Stack.Screen name="AlbumView" component={AlbumView} options={{ headerShown: true }} />
 
       </Stack.Navigator>
     </NavigationContainer>
