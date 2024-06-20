@@ -6,6 +6,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
+
 // Mock data for genres
 // * Contains title, image, gradient, and screen
 const genres = [
@@ -34,13 +37,11 @@ const GenreScreen = () => {
 
   const navigation = useNavigation();
 
-  // Replace with your Last.fm API key
-  const API_KEY = '76a2c19dc353fda867366b17336fdab1'; 
 
   // Function to make search request to Last.fm API
   const searchMusic = async (query) => {
     try {
-      const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=track.search&track=${query}&api_key=${API_KEY}&format=json`);
+      const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=track.search&track=${query}&api_key=${LASTFM_API_KEY}&format=json`);
       return response.data.results.trackmatches.track;
     } catch (error) {
       console.error('Error fetching search results:', error);

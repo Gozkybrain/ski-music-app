@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// Import the environment variable
-import { LASTFM_API_KEY } from '@env';
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 const categories = [
   // * handle categories by title and value

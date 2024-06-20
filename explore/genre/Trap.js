@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const API_KEY = '76a2c19dc353fda867366b17336fdab1'; // Replace with your Last.fm API key
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 const Trap = () => {
   // State for loading indicator
@@ -22,7 +23,7 @@ const Trap = () => {
   // Function to fetch pop songs from Last.fm API
   const fetchPopSongs = async () => {
     try {
-      const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=pop&api_key=${API_KEY}&format=json`);
+      const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=pop&api_key=${LASTFM_API_KEY}&format=json`);
       setPopSongs(response.data.tracks.track);
     } catch (error) {
       console.error('Error fetching pop songs:', error);

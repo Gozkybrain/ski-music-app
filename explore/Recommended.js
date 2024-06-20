@@ -5,8 +5,8 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 
-// Define the API key
-const API_KEY = '76a2c19dc353fda867366b17336fdab1';
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 // Define the Recommended component
 const Recommended = () => {
@@ -19,7 +19,7 @@ const Recommended = () => {
             try {
                 // Fetch data from the Last.fm API for the top albums of the artist
                 const response = await fetch(
-                    `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${API_KEY}&format=json&limit=${limit}`
+                    `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${LASTFM_API_KEY}&format=json&limit=${limit}`
                 );
 
                 // Check if the response is ok

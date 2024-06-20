@@ -6,8 +6,8 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import MusicDetail from './MusicDetail';
 import ArtisteMusic from './ArtisteMusic';
 
-//  API KEY
-const LAST_FM_API_KEY = '76a2c19dc353fda867366b17336fdab1';
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 // Declare all required variables
 const ViewArtiste = ({ route, navigation }) => {
@@ -23,7 +23,7 @@ const ViewArtiste = ({ route, navigation }) => {
                 const response = await fetch(
                     `https://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&artist=${encodeURIComponent(
                         artistName
-                    )}&api_key=${LAST_FM_API_KEY}&format=json&limit=10`
+                    )}&api_key=${LASTFM_API_KEY}&format=json&limit=10`
                 );
 
                 if (!response.ok) {

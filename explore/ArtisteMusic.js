@@ -1,7 +1,9 @@
 // * The ArtisteView screen will house a music play mode with play next queue embedded
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using FontAwesome for icons
+import { FontAwesome } from '@expo/vector-icons';
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 const ArtisteMusic = ({ route, navigation }) => {
   // Extract the 'music' object from the 'route.params' passed from navigation
@@ -13,8 +15,6 @@ const ArtisteMusic = ({ route, navigation }) => {
   const [progress, setProgress] = useState(0); // State to track playback progress
   const [latestAlbums, setLatestAlbums] = useState([]); // State to store latest albums
 
-  // API key
-  const API_KEY = '76a2c19dc353fda867366b17336fdab1';
 
   // Array of artist names whose latest albums will be fetched
   const artistNames = ['asake', 'davido', 'wizkid', 'burna boy', 'omah lay', 'timaya', 'tiwa savage', 'rema', 'ruger', 'ayra starr'];
@@ -46,7 +46,7 @@ const ArtisteMusic = ({ route, navigation }) => {
       const albumPromises = artistNames.map(async (artist) => {
         // Fetch data from the Last.fm API for the top albums of the artist
         const response = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${API_KEY}&format=json&limit=${limit}`
+          `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${LASTFM_API_KEY}&format=json&limit=${limit}`
         );
 
         // Check if the response is ok

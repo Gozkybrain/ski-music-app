@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-const API_KEY = '76a2c19dc353fda867366b17336fdab1';
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 const TrendingArtistes = () => {
   const [topArtists, setTopArtists] = useState([]);
@@ -16,7 +17,7 @@ const TrendingArtistes = () => {
     const fetchTopArtists = async () => {
       try {
         const response = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=nigeria&api_key=${API_KEY}&format=json&limit=100`
+          `https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=nigeria&api_key=${LASTFM_API_KEY}&format=json&limit=100`
         );
         
         if (!response.ok) {

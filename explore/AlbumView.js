@@ -1,3 +1,4 @@
+// * this screen is not in use yet
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 

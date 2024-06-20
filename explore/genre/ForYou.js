@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const API_KEY = '76a2c19dc353fda867366b17336fdab1'; // Replace with your Last.fm API key
+// Load environment variables from dotenv
+import { LASTFM_API_KEY } from '@env'; 
 
 const ForYou = () => {
   // State for loading indicator
@@ -22,7 +23,7 @@ const ForYou = () => {
   // Function to fetch songs by Ayra Starr from Last.fm API
   const fetchSongs = async () => {
     try {
-      const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=ayra+starr&api_key=${API_KEY}&format=json`);
+      const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=ayra+starr&api_key=${LASTFM_API_KEY}&format=json`);
       setSongs(response.data.toptracks.track);
     } catch (error) {
       console.error('Error fetching songs:', error);
