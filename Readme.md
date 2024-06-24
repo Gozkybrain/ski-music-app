@@ -34,5 +34,5 @@ npm install --save @react-native-community/cli-platform-ios @react-native-commun
 
 `Note that this project was first tested with Last.FM API before being integrated on the official API`
 
-The API from Ski Music is not publicly free, and i do not have the permission to share.
+The API from Ski Music is not publicly free, and i do not have the permission to share, you can integrate to your projects using any API of your choosing.
 
