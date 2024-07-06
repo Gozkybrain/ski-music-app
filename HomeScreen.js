@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import SignUp from './authentication/SignUp'; // Import the SignUp component
 import SignIn from './authentication/SignIn'; // Import the SignIn component
@@ -22,59 +22,65 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Background image */}
-      <Image
-        source={require('./assets/In.png')}
-        style={styles.backgroundImage}
-      />
-
-      {/* Header  section */}
-      <View style={styles.header}>
-        <Image source={require('./assets/hLogo.png')} style={styles.logo} />
-      </View>
-
-      {/* Body */}
-      <View style={styles.body}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+    >
+      {/* handle scrolling when entering fields */}
+      <View style={styles.container}>
         {/* Background image */}
         <Image
-          source={require('./assets/myBg.png')}
+          source={require('./assets/In.png')}
           style={styles.backgroundImage}
         />
-        {/* Black gradient */}
-        <LinearGradient
-          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-          style={styles.gradient}
-        />
-        {/* Title */}
-        <Text style={styles.title}>Everything Music!</Text>
 
-        {/* Accordions */}
-        <View style={styles.accordionBox}>
-          {/* Register Accordion */}
-          <TouchableOpacity onPress={toggleRegisterAccordion} style={styles.accordionButtonRegister}>
-            <Text style={styles.accordionButtonTextReg}>Sign Up</Text>
-          </TouchableOpacity>
-          {isRegisterOpen && (
-            <View style={styles.accordionContentReg}>
-              {/* Implement Registration form here */}
-              <SignUp  navigation={navigation} />
-            </View>
-          )}
+        {/* Header section */}
+        <View style={styles.header}>
+          <Image source={require('./assets/hLogo.png')} style={styles.logo} />
+        </View>
 
-          {/* Login Accordion */}
-          <TouchableOpacity onPress={toggleLoginAccordion} style={styles.accordionButtonLogin}>
-            <Text style={styles.accordionButtonTextLog}>Sign In</Text>
-          </TouchableOpacity>
-          {isLoginOpen && (
-            <View style={styles.accordionContentLog}>
-              {/* Implement Login form here and define navigation */}
-              <SignIn navigation={navigation} />
-            </View>
-          )}
+        {/* Body */}
+        <View style={styles.body}>
+          {/* Background image */}
+          <Image
+            source={require('./assets/myBg.png')}
+            style={styles.backgroundImage}
+          />
+          {/* Black gradient */}
+          <LinearGradient
+            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+            style={styles.gradient}
+          />
+          {/* Title */}
+          <Text style={styles.title}>Everything Music!</Text>
+
+          {/* Accordions */}
+          <View style={styles.accordionBox}>
+            {/* Register Accordion */}
+            <TouchableOpacity onPress={toggleRegisterAccordion} style={styles.accordionButtonRegister}>
+              <Text style={styles.accordionButtonTextReg}>Sign Up</Text>
+            </TouchableOpacity>
+            {isRegisterOpen && (
+              <View style={styles.accordionContentReg}>
+                {/* Implement Registration form here */}
+                <SignUp navigation={navigation} />
+              </View>
+            )}
+
+            {/* Login Accordion */}
+            <TouchableOpacity onPress={toggleLoginAccordion} style={styles.accordionButtonLogin}>
+              <Text style={styles.accordionButtonTextLog}>Sign In</Text>
+            </TouchableOpacity>
+            {isLoginOpen && (
+              <View style={styles.accordionContentLog}>
+                {/* Implement Login form here and define navigation */}
+                <SignIn navigation={navigation} />
+              </View>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -97,10 +103,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  accordionLogin: {
-    backgroundColor: '#ffffff',
-    borderTopRightRadius: 300,
-    overflow: 'hidden',
+  scrollContainer: {
+    flexGrow: 1,
   },
   gradient: {
     position: 'absolute',

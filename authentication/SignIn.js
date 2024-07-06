@@ -1,7 +1,10 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 const SignIn = ({ navigation }) => {
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
   const handleLogin = () => {
     // Navigate to NewPage screen after login
     navigation.navigate('NewPage');
@@ -12,41 +15,53 @@ const SignIn = ({ navigation }) => {
     navigation.navigate('ForgetPassword');
   };
 
+  // dismiss the keyboard when tapping outside input fields
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   return (
-    <View style={styles.container}>
-      {/* Email Input */}
-      <Text>Email Address</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="johndoe@email.com"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-        testID="emailInput"  // Add a test ID
-      />
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <View style={styles.container}>
+        {/* Email Input */}
+        <Text>Email Address</Text>
+        <TextInput
+          ref={emailInputRef}
+          style={styles.input}
+          placeholder="johndoe@email.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          // Add a test ID
+          testID="emailInput"
+          onSubmitEditing={() => passwordInputRef.current.focus()}
+        />
 
-      {/* Password Input */}
-      <Text>Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="********"
-        secureTextEntry
-        autoCapitalize="none"
-        autoCorrect={false}
-        testID="passwordInput"  // Add a test ID
-      />
+        {/* Password Input */}
+        <Text>Password</Text>
+        <TextInput
+          ref={passwordInputRef}
+          style={styles.input}
+          placeholder="********"
+          secureTextEntry
+          autoCapitalize="none"
+          autoCorrect={false}
+          // Add a test ID
+          testID="passwordInput"
+          onSubmitEditing={handleLogin}
+        />
 
-      {/* Forgot Password Link */}
-      <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
-        <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
-      </TouchableOpacity>
+        {/* Forgot Password Link */}
+        <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
+          <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
+        </TouchableOpacity>
 
-      {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>
-          Welcome back  </Text>
-      </TouchableOpacity>
-    </View>
+        {/* Login Button */}
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -70,13 +85,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 5,
     marginBottom: 10,
-    alignSelf: 'flex-start',
-    borderRadius: 300,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',

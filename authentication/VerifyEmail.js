@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const VerifyEmail = ({ navigation }) => {
@@ -27,94 +27,88 @@ const VerifyEmail = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            {/* Background image */}
-            <Image
-                source={require('../assets/otp.png')}
-                style={styles.backgroundImage}
-            />
-
-            {/* Header */}
-            <View style={styles.header}>
-                {/* Go Back Button */}
-                <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
-                    <Text style={styles.goBackButtonText}>&#x2190;</Text>
-                </TouchableOpacity>
-                {/* logo image */}
-                <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
-            </View>
-
-            {/* Body */}
-            <View style={styles.body}>
-
-                {/* Black gradient */}
-                <LinearGradient
-                    colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-                    style={styles.gradient}
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
+        >
+            <View style={styles.container}>
+                {/* Background image */}
+                <Image
+                    source={require('../assets/otp.png')}
+                    style={styles.backgroundImage}
                 />
-                {/* NewPassword content */}
-                <View style={styles.accordionButtonLogin}>
-                    <Text style={styles.accordionButtonTextLog}>Verify your email</Text>
-                    <View style={styles.containers}>
-                        {/* Title */}
-                        <Text style={styles.title}>
-                            A 4 digit OTP has been sent to your email, please input them to continue.
-                        </Text>
-                        {/* OTP input fields */}
-                        <View style={styles.otpContainer}>
 
-                            {/* otp1  */}
-                            <TextInput
-                                style={styles.input}
-                                keyboardType="numeric"
-                                maxLength={1}
-                                onChangeText={text => setOtp1(text)}
-                            />
-
-                            {/* otp 2 */}
-                            <TextInput
-                                style={styles.input}
-                                keyboardType="numeric"
-                                maxLength={1}
-                                onChangeText={text => setOtp2(text)}
-                            />
-
-                            {/* otp 3 */}
-                            <TextInput
-                                style={styles.input}
-                                keyboardType="numeric"
-                                maxLength={1}
-                                onChangeText={text => setOtp3(text)}
-                            />
-
-                            {/* otp 4 */}
-                            <TextInput
-                                style={styles.input}
-                                keyboardType="numeric"
-                                maxLength={1}
-                                onChangeText={text => setOtp4(text)}
-                            />
-                        </View>
-
-                        {/* resend otp codes */}
-                        <Text style={styles.title}>
-                            Resend OTP Code
-                        </Text>
-
-                        {/* Submit button */}
-                        <TouchableOpacity
-                            style={[styles.button, !isOtpFilled() && styles.disabledButton]}
-                            onPress={handleSubmit}
-                            disabled={!isOtpFilled()}
-                        >
-                            <Text style={styles.buttonText}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
-
+                {/* Header */}
+                <View style={styles.header}>
+                    {/* Go Back Button */}
+                    <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+                        <Text style={styles.goBackButtonText}>&#x2190;</Text>
+                    </TouchableOpacity>
+                    {/* logo image */}
+                    <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
                 </View>
 
+                {/* Body */}
+                <View style={styles.body}>
+                    {/* Black gradient */}
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+                        style={styles.gradient}
+                    />
+                    {/* NewPassword content */}
+                    <View style={styles.accordionButtonLogin}>
+                        <Text style={styles.accordionButtonTextLog}>Verify your email</Text>
+                        <View style={styles.containers}>
+                            {/* Title */}
+                            <Text style={styles.title}>
+                                A 4 digit OTP has been sent to your email, please input them to continue.
+                            </Text>
+                            {/* OTP input fields */}
+                            <View style={styles.otpContainer}>
+                                {/* otp1  */}
+                                <TextInput
+                                    style={styles.input}
+                                    keyboardType="numeric"
+                                    maxLength={1}
+                                    onChangeText={text => setOtp1(text)}
+                                />
+                                {/* otp 2 */}
+                                <TextInput
+                                    style={styles.input}
+                                    keyboardType="numeric"
+                                    maxLength={1}
+                                    onChangeText={text => setOtp2(text)}
+                                />
+                                {/* otp 3 */}
+                                <TextInput
+                                    style={styles.input}
+                                    keyboardType="numeric"
+                                    maxLength={1}
+                                    onChangeText={text => setOtp3(text)}
+                                />
+                                {/* otp 4 */}
+                                <TextInput
+                                    style={styles.input}
+                                    keyboardType="numeric"
+                                    maxLength={1}
+                                    onChangeText={text => setOtp4(text)}
+                                />
+                            </View>
+                            {/* Resend OTP Code */}
+                            <Text style={styles.title}>Resend OTP Code</Text>
+                            {/* Submit button */}
+                            <TouchableOpacity
+                                style={[styles.button, !isOtpFilled() && styles.disabledButton]}
+                                onPress={handleSubmit}
+                                disabled={!isOtpFilled()}
+                            >
+                                <Text style={styles.buttonText}>Submit</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -136,6 +130,9 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+    },
+    scrollContainer: {
+        flexGrow: 1,
     },
     containers: {
         alignItems: 'center',
@@ -210,21 +207,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 30,
     },
-
     goBackButton: {
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 5,
         alignSelf: 'flex-start',
     },
-
     goBackButtonText: {
         color: '#FFFFFF',
         fontSize: 16,
         textAlign: 'left',
         fontWeight: 'bold',
     },
-
 });
 
 export default VerifyEmail;

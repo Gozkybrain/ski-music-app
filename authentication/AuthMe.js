@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthMe = ({ navigation }) => {
@@ -9,7 +9,8 @@ const AuthMe = ({ navigation }) => {
     const [fullName, setFullName] = useState('');
 
     const goBack = () => {
-        navigation.goBack(); // Go back to the previous screen
+        // Go back to the previous screen
+        navigation.goBack();
     };
 
     // Function to handle form submission
@@ -39,92 +40,97 @@ const AuthMe = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            {/* Background Image */}
-            <Image
-                source={require('../assets/In.png')}
-                style={styles.backgroundImage}
-            />
-
-            {/* Header */}
-            <View style={styles.header}>
-
-                {/* Go Back Button */}
-                <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
-                    <Text style={styles.goBackButtonText}>&#x2190;</Text>
-                </TouchableOpacity>
-
-                {/* logo image */}
-                <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
-            </View>
-
-            {/* Body */}
-            <View style={styles.body}>
-                {/* Gradient */}
-                <LinearGradient
-                    colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-                    style={styles.gradient}
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
+        >
+            <View style={styles.container}>
+                {/* Background Image */}
+                <Image
+                    source={require('../assets/In.png')}
+                    style={styles.backgroundImage}
                 />
 
-                {/* Form */}
-                <View style={styles.accordionButtonLogin}>
-                    <View style={styles.formContainer}>
-                        {/* Title: What is your Birth date? */}
-                        <Text style={styles.title}>What is your Birth date?</Text>
-                        {/* Input field for birth date */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="DD/MM/YYYY"
-                            value={selectedDate}
-                            onChangeText={(text) => setSelectedDate(formatDateString(text))}
-                            keyboardType="numeric"
-                            maxLength={10}
-                        />
+                {/* Header */}
+                <View style={styles.header}>
 
-                        {/* Title: What is your Full Name? */}
-                        <Text style={styles.title}>What is your Full Name?</Text>
-                        {/* Input field for full name */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Enter your full name"
-                            value={fullName}
-                            onChangeText={setFullName}
-                            autoCapitalize="words"
-                            autoCorrect={false}
-                        />
+                    {/* Go Back Button */}
+                    <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+                        <Text style={styles.goBackButtonText}>&#x2190;</Text>
+                    </TouchableOpacity>
 
-                        {/* Title: Gender */}
-                        <Text style={styles.title}>Gender</Text>
-                        {/* Gender selection buttons */}
-                        <View style={styles.genderSelector}>
-                            <TouchableOpacity
-                                style={[styles.genderOption, gender === 'male' && styles.selectedOption]}
-                                onPress={() => setGender('male')}
-                            >
-                                <Text style={[styles.genderText, gender === 'male' && styles.selectedText]}>Male</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.genderOption, gender === 'female' && styles.selectedOption]}
-                                onPress={() => setGender('female')}
-                            >
-                                <Text style={[styles.genderText, gender === 'female' && styles.selectedText]}>Female</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.genderOption, gender === 'others' && styles.selectedOption]}
-                                onPress={() => setGender('others')}
-                            >
-                                <Text style={[styles.genderText, gender === 'others' && styles.selectedText]}>Others</Text>
+                    {/* logo image */}
+                    <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
+                </View>
+
+                {/* Body */}
+                <View style={styles.body}>
+                    {/* Gradient */}
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+                        style={styles.gradient}
+                    />
+
+                    {/* Form */}
+                    <View style={styles.accordionButtonLogin}>
+                        <View style={styles.formContainer}>
+                            {/* Title: What is your Birth date? */}
+                            <Text style={styles.title}>What is your Birth date?</Text>
+                            {/* Input field for birth date */}
+                            <TextInput
+                                style={styles.input}
+                                placeholder="DD/MM/YYYY"
+                                value={selectedDate}
+                                onChangeText={(text) => setSelectedDate(formatDateString(text))}
+                                keyboardType="numeric"
+                                maxLength={10}
+                            />
+
+                            {/* Title: What is your Full Name? */}
+                            <Text style={styles.title}>What is your Full Name?</Text>
+                            {/* Input field for full name */}
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Enter your full name"
+                                value={fullName}
+                                onChangeText={setFullName}
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                            />
+
+                            {/* Title: Gender */}
+                            <Text style={styles.title}>Gender</Text>
+                            {/* Gender selection buttons */}
+                            <View style={styles.genderSelector}>
+                                <TouchableOpacity
+                                    style={[styles.genderOption, gender === 'male' && styles.selectedOption]}
+                                    onPress={() => setGender('male')}
+                                >
+                                    <Text style={[styles.genderText, gender === 'male' && styles.selectedText]}>Male</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.genderOption, gender === 'female' && styles.selectedOption]}
+                                    onPress={() => setGender('female')}
+                                >
+                                    <Text style={[styles.genderText, gender === 'female' && styles.selectedText]}>Female</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.genderOption, gender === 'others' && styles.selectedOption]}
+                                    onPress={() => setGender('others')}
+                                >
+                                    <Text style={[styles.genderText, gender === 'others' && styles.selectedText]}>Others</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* Continue Button */}
+                            <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+                                <Text style={styles.continueButtonText}>Continue</Text>
                             </TouchableOpacity>
                         </View>
-
-                        {/* Continue Button */}
-                        <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-                            <Text style={styles.continueButtonText}>Continue</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -146,6 +152,9 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+    },
+    scrollContainer: {
+        flexGrow: 1,
     },
     accordionLogin: {
         backgroundColor: '#ffffff',
@@ -211,11 +220,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: 'gray',
+        marginHorizontal: 5, // Added margin to space out the gender options
     },
     selectedOption: {
         backgroundColor: '#ffffff',
         borderColor: '#293c3b',
-        borderWidth: 2
+        borderWidth: 2,
     },
     genderText: {
         color: '#293c3b',
@@ -232,14 +242,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
     },
-
     goBackButton: {
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 5,
         alignSelf: 'flex-start',
     },
-
     goBackButtonText: {
         color: '#FFFFFF',
         fontSize: 16,

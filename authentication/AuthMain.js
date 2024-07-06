@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthMain = ({ navigation }) => {
     // State variables to manage form inputs
     const [username, setUsername] = useState('');
-    const [profilePicture, setProfilePicture] = useState(null); // State for profile picture
+    // State for profile picture
+    const [profilePicture, setProfilePicture] = useState(null);
 
     // Function to handle form submission
     const handleContinue = () => {
@@ -20,7 +21,8 @@ const AuthMain = ({ navigation }) => {
     };
 
     const goBack = () => {
-        navigation.goBack(); // Go back to the previous screen
+        // Go back to the previous screen
+        navigation.goBack();
     };
 
     // Function to handle profile picture upload
@@ -30,73 +32,80 @@ const AuthMain = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            {/* Background Image */}
-            <Image
-                source={require('../assets/In.png')}
-                style={styles.backgroundImage}
-            />
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
+        >
 
-            {/* Header */}
-            <View style={styles.header}>
-
-                {/* Go Back Button */}
-                <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
-                    <Text style={styles.goBackButtonText}>&#x2190;</Text>
-                </TouchableOpacity>
-
-                {/* logo image */}
-                <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
-            </View>
-
-            {/* Body */}
-            <View style={styles.body}>
-                {/* Gradient */}
-                <LinearGradient
-                    colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-                    style={styles.gradient}
+            <View style={styles.container}>
+                {/* Background Image */}
+                <Image
+                    source={require('../assets/In.png')}
+                    style={styles.backgroundImage}
                 />
 
-                {/* Form */}
-                <View style={styles.accordionButtonLogin}>
-                    <View style={styles.formContainer}>
-                        {/* Title: Upload Profile Picture */}
-                        <Text style={styles.title}>Upload Profile Picture</Text>
-                        {/* Profile Picture Upload */}
-                        <TouchableOpacity
-                            style={styles.profilePictureContainer}
-                            onPress={() => handleProfilePictureUpload(/* Pass image parameter here */)}>
-                            {/* Show selected profile picture or placeholder */}
-                            {profilePicture ? (
-                                <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
-                            ) : (
-                                <Image source={require('../assets/user-dp.jpg')} style={styles.profilePicture} />
-                            )}
-                        </TouchableOpacity>
+                {/* Header */}
+                <View style={styles.header}>
 
-                        {/* Title: Choose a Username */}
-                        <Text style={styles.title}>Choose a Username</Text>
-                        {/* Username Input */}
-                        <TextInput
-                            style={styles.input}
-                            placeholder="johndoe123"
-                            value={username}
-                            onChangeText={setUsername}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
+                    {/* Go Back Button */}
+                    <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+                        <Text style={styles.goBackButtonText}>&#x2190;</Text>
+                    </TouchableOpacity>
 
-                        {/* Continue Button */}
-                        <TouchableOpacity
-                            style={[styles.continueButton, username.trim() === '' && styles.disabledButton]}
-                            onPress={handleContinue}
-                            disabled={username.trim() === ''}>
-                            <Text style={styles.continueButtonText}>Create Account</Text>
-                        </TouchableOpacity>
+                    {/* logo image */}
+                    <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
+                </View>
+
+                {/* Body */}
+                <View style={styles.body}>
+                    {/* Gradient */}
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+                        style={styles.gradient}
+                    />
+
+                    {/* Form */}
+                    <View style={styles.accordionButtonLogin}>
+                        <View style={styles.formContainer}>
+                            {/* Title: Upload Profile Picture */}
+                            <Text style={styles.title}>Upload Profile Picture</Text>
+                            {/* Profile Picture Upload */}
+                            <TouchableOpacity
+                                style={styles.profilePictureContainer}
+                                onPress={() => handleProfilePictureUpload(/* Pass image parameter here */)}>
+                                {/* Show selected profile picture or placeholder */}
+                                {profilePicture ? (
+                                    <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
+                                ) : (
+                                    <Image source={require('../assets/user-dp.jpg')} style={styles.profilePicture} />
+                                )}
+                            </TouchableOpacity>
+
+                            {/* Title: Choose a Username */}
+                            <Text style={styles.title}>Choose a Username</Text>
+                            {/* Username Input */}
+                            <TextInput
+                                style={styles.input}
+                                placeholder="johndoe123"
+                                value={username}
+                                onChangeText={setUsername}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+
+                            {/* Continue Button */}
+                            <TouchableOpacity
+                                style={[styles.continueButton, username.trim() === '' && styles.disabledButton]}
+                                onPress={handleContinue}
+                                disabled={username.trim() === ''}>
+                                <Text style={styles.continueButtonText}>Create Account</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+
+        </KeyboardAvoidingView>
     );
 };
 
@@ -118,6 +127,9 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+    },
+    scrollContainer: {
+        flexGrow: 1,
     },
     accordionLogin: {
         backgroundColor: '#ffffff',
@@ -197,20 +209,18 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 60,
     },
-
     goBackButton: {
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 5,
         alignSelf: 'flex-start',
-      },
-      
-      goBackButtonText: {
+    },
+    goBackButtonText: {
         color: '#FFFFFF',
         fontSize: 16,
         textAlign: 'left',
         fontWeight: 'bold',
-      },
+    },
 });
 
 export default AuthMain;

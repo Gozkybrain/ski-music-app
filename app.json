@@ -32,6 +32,13 @@
       "eas": {
         "projectId": "116e7f3c-5f5d-4b2b-85f5-1478f282c8e1"
       }
+    },
+    "owner": "gozkybrain",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/116e7f3c-5f5d-4b2b-85f5-1478f282c8e1"
     }
   }
 }

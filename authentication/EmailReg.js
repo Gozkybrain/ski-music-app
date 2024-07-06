@@ -1,107 +1,117 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const EmailReg = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Function to validate email format
   const isEmailValid = (email) => {
-    // Regular expression to validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  // Function to handle continue button press
   const handleContinue = () => {
     // Validate email and password
     if (isEmailValid(email) && password.trim() !== '') {
-      // Navigate to OTP screen with email and password as parameters
+      // Navigate to VerifyEmail screen with email and password as parameters
       navigation.navigate('VerifyEmail', { email: email, password: password });
     }
   };
 
+  // Function to handle go back button press
   const goBack = () => {
-    navigation.goBack(); // Go back to the previous screen
+    navigation.goBack();
   };
 
-
   return (
-    <View style={styles.container}>
-      {/* Background image */}
-      <Image
-        source={require('../assets/otp.png')}
-        style={styles.backgroundImage}
-      />
-
-      {/* Header */}
-      <View style={styles.header}>
-        {/* Go Back Button */}
-        <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
-          <Text style={styles.goBackButtonText}>&#x2190;</Text>
-        </TouchableOpacity>
-
-        {/* logo image */}
-        <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
-
-      </View>
-
-      {/* Body */}
-      <View style={styles.body}>
-        {/* Background image */}
-
-        {/* Black gradient */}
-        <LinearGradient
-          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
-          style={styles.gradient}
-        />
-
-        {/* Forget Password content */}
-        <View style={styles.accordionButtonLogin}>
-          <Text style={styles.accordionButtonTextLog}>Register with Email</Text>
-          <View style={styles.formContainer}>
-
-            {/* Email Address Field */}
-            <Text style={styles.title}>Enter Your Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="john-doe@email.com"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-
-            {/* Password field */}
-            <Text style={styles.title}>Create a Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="xxxxxxxx"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-
-            {/* submit to continue button */}
-            <TouchableOpacity
-              style={[styles.continueButton, !(isEmailValid(email) && password.trim() !== '') && styles.disabledButton]}
-              onPress={handleContinue}
-              disabled={!(isEmailValid(email) && password.trim() !== '')}
-            >
-              <Text style={styles.continueButtonText}>Continue</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.innerContainer}>
+          {/* Background image */}
+          <Image
+            source={require('../assets/otp.png')}
+            style={styles.backgroundImage}
+          />
+          
+          {/* Header section */}
+          <View style={styles.header}>
+            {/* Go Back Button */}
+            <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+              <Text style={styles.goBackButtonText}>&#x2190;</Text>
             </TouchableOpacity>
+
+            {/* Logo */}
+            <Image source={require('../assets/whiteLG.png')} style={styles.logo} />
+          </View>
+
+          {/* Body section */}
+          <View style={styles.body}>
+            {/* Black gradient */}
+            <LinearGradient
+              colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+              style={styles.gradient}
+            />
+
+            {/* Register with Email section */}
+            <View style={styles.accordionButtonLogin}>
+              <Text style={styles.accordionButtonTextLog}>Register with Email</Text>
+              <View style={styles.formContainer}>
+                {/* Email Address Field */}
+                <Text style={styles.title}>Enter Your Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="john-doe@email.com"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+
+                {/* Password Field */}
+                <Text style={styles.title}>Create a Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="xxxxxxxx"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+
+                {/* Continue Button */}
+                <TouchableOpacity
+                  style={[styles.continueButton, !(isEmailValid(email) && password.trim() !== '') && styles.disabledButton]}
+                  onPress={handleContinue}
+                  disabled={!(isEmailValid(email) && password.trim() !== '')}
+                >
+                  <Text style={styles.continueButtonText}>Continue</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
-
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 // Stylesheet
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   header: {
     paddingTop: 40,
     justifyContent: 'center',
@@ -115,14 +125,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-  },
-  accordionLogin: {
-    backgroundColor: '#ffffff',
-    borderTopRightRadius: 300,
-    overflow: 'hidden',
   },
   gradient: {
     position: 'absolute',
@@ -142,7 +144,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Trebuchet MS',
     marginBottom: 20,
-    // marginTop: 30,
     color: '#000000',
   },
   accordionButtonLogin: {
@@ -189,14 +190,12 @@ const styles = StyleSheet.create({
   disabledButton: {
     opacity: 0.5,
   },
-
   goBackButton: {
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
     alignSelf: 'flex-start',
   },
-
   goBackButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
